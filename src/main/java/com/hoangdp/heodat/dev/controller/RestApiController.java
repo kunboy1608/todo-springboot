@@ -2,6 +2,8 @@ package com.hoangdp.heodat.dev.controller;
 
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -24,7 +26,8 @@ public class RestApiController {
 
     @PostConstruct
     public void init() {
-        todoList.add(null);
+        todoList = IntStream.range(0, 10).mapToObj(i -> new Todo("title-" + i, "detail-" + i))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/todo")

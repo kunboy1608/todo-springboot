@@ -3,9 +3,9 @@ package com.hoangdp.heodat.dev;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@Data
 @AllArgsConstructor
-public class Todo {
-    private String title;
-    private String detail;
+@Data
+public class ErrorMessage {
+    private int statusCode;
+    private String message;
 }

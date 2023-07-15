@@ -13,7 +13,9 @@ import com.hoangdp.heodat.dev.config.AppProperties;
 public class Application implements CommandLineRunner {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		var context = SpringApplication.run(Application.class, args);
+		LocalDatasource localDatasource = context.getBean(LocalDatasource.class);
+        System.out.println(localDatasource);
 	}
 
 	@Autowired

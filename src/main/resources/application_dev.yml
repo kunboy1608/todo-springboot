@@ -1,0 +1,21 @@
+# Chạy ứng dụng trên port 8080
+server:
+  port: 8080
+
+# Bỏ tính năng cache của thymeleaf để lập trình cho nhanh
+spring:
+  thymeleaf:
+    cache: false
+  messages:
+    basename: i18n/messages
+  web:
+    locale: vi
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/micro_db?useSSL=false
+    username: heodat
+    password: H30D4t12
+
+  jpa:
+    hibernate:
+      ddl-auto: update

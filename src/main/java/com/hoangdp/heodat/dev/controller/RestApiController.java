@@ -26,7 +26,7 @@ public class RestApiController {
 
     @PostConstruct
     public void init() {
-        todoList = IntStream.range(0, 10).mapToObj(i -> new Todo("title-" + i, "detail-" + i))
+        todoList = IntStream.range(0, 10).mapToObj(i -> new Todo(i, "title-" + i, "detail-" + i))
                 .collect(Collectors.toList());
     }
 

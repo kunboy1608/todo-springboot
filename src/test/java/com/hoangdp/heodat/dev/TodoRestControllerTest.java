@@ -14,12 +14,11 @@ import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.hoangdp.heodat.dev.controller.TodoRestController;
 
@@ -37,18 +36,11 @@ import com.hoangdp.heodat.dev.controller.TodoRestController;
  * This project is licensed under the MIT license.
  *
  * @since 5/26/2019
- * Github: https://github.com/loda-kun
+ *        Github: https://github.com/loda-kun
  */
-@ExtendWith({SpringExtension.class, MockitoExtension.class})
+@ExtendWith({ SpringExtension.class, MockitoExtension.class })
 // Bạn cần cung cấp lớp Controller cho @WebMvcTest
-@WebMvcTest(TodoRestController.class)
 public class TodoRestControllerTest {
-    /**
-     * Đối tượng MockMvc do Spring cung cấp
-     * Có tác dụng giả lập request, thay thế việc khởi động Server
-     */
-    @Autowired
-    MockMvc mvc;
 
     @MockBean
     TodoRepository todoRepository;
@@ -60,17 +52,20 @@ public class TodoRestControllerTest {
     public void testFindAll() throws Exception {
         // Tạo ra một List<Todo> 10 phần tử
         List<Todo> allTodos = IntStream.range(0, 10)
-                                       .mapToObj(i -> new Todo(i, "title-" + i, "detail-" + i))
-                                       .collect(Collectors.toList());
+                .mapToObj(i -> new Todo(i, "title-" + i, "detail-" + i))
+                .collect(Collectors.toList());
 
         // giả lập todoService trả về List mong muốn
         given(todoService.getAll()).willReturn(allTodos);
 
+        MockMvc mvc = MockMvcBuilders.standaloneSetup(new TodoRestController(todoService)).build();
+
         mvc.perform(get("/api/v2/todo").contentType(MediaType.APPLICATION_JSON)) // Thực hiện GET REQUEST
-           .andExpect(status().isOk()) // Mong muốn Server trả về status 200
-           .andExpect(jsonPath("$", hasSize(10))) // Hi vọng server trả về List độ dài 10
-           .andExpect(jsonPath("$[0].id", is(0))) // Hi vọng phần tử trả về đầu tiên có id = 0
-           .andExpect(jsonPath("$[0].title", is("title-0"))) // Hi vọng phần tử trả về đầu tiên có title = "title-0"
-           .andExpect(jsonPath("$[0].detail", is("detail-0")));
+                .andExpect(status().isOk()) // Mong muốn Server trả về status 200
+                .andExpect(jsonPath("$", hasSize(10))) // Hi vọng server trả về List độ dài 10
+                .andExpect(jsonPath("$[0].id", is(0))) // Hi vọng phần tử trả về đầu tiên có id = 0
+                .andExpect(jsonPath("$[0].title", is("title-0"))) // Hi vọng phần tử trả về đầu tiên có title =
+                                                                  // "title-0"
+                .andExpect(jsonPath("$[0].detail", is("detail-0")));
     }
 }

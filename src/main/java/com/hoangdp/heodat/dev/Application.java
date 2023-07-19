@@ -9,6 +9,15 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 public class Application {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
+		var context = SpringApplication.run(Application.class, args);
+		System.out.println(System.getProperty("os.name"));
+		try {
+            WindowBean someBean = context.getBean(WindowBean.class);
+			if (someBean!= null){
+            System.out.println("Somebean tồn tại!");
+			}
+        }catch (Exception e){
+            System.out.println("Somebean không tồn tại");
+        }
 	}
 }

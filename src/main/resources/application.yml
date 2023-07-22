@@ -12,13 +12,6 @@ spring:
     basename: i18n/messages
   web:
     locale: vi
-
-  datasource:
-    url: jdbc:mysql://localhost:3306/micro_db?useSSL=false
-    username: heodat
-    password: H30D4t12
-    driver-class-name: com.mysql.jdbc.Driver
-
   jpa:
     hibernate:
       ddl-auto: update
